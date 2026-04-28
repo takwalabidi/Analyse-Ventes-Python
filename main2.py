@@ -1,9 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# ================================
 # 1. GÉNÉRATION DES DONNÉES
-# ================================
 # On crée directement les données en mémoire 
 
 data = {
@@ -19,43 +17,31 @@ df = pd.DataFrame(data)
 df.to_csv("ventes.csv", index=False)
 print(" Fichier ventes.csv généré automatiquement !")
 
-# ================================
-# 2. CALCULS
-# ================================
-
-# CA Brut = Prix × Quantité
+# 2. Calcul du Chiffre d’Affaires Brut (Prix × Quantité)
 df["CA_Brut"] = df["Prix"] * df["Quantite"]
+print(df["CA_Brut"])
 
-# CA Net après remise
+# 3. Application des remises (%) → CA Net
 df["CA_Net"] = df["CA_Brut"] * (1 - df["Remise"] / 100)
+print(df["CA_Net"])
 
-# TVA (20%)
+# 4. Calcul de la TVA (20%) sur le CA Net
 df["TVA"] = df["CA_Net"] * 0.20
+print(df["TVA"])
 
-# ================================
-# 3. ANALYSE
-# ================================
-
-# CA total
+# 5. Calcul du CA Total de l’entreprise
 ca_total = df["CA_Net"].sum()
+print("CA Total =", ca_total)
 
-# Produit le plus rentable
+#6. Identifier l’ID du produit avec le plus grand bénéfice (CA Net max)
 id_best_product = df.loc[df["CA_Net"].idxmax(), "ID"]
+print("Produit avec le plus grand bénéfice :", id_best_product)
 
-print("\n Résultats :")
-print(df)
-print(f"\n CA Total = {ca_total:.2f} €")
-print(f" Meilleur produit = {id_best_product}")
-
-# ================================
-# 4. EXPORT FINAL
-# ================================
+# 7. Export du fichier final
 df.to_csv("resultats_final.csv", index=False)
-print(" Fichier resultats_final.csv exporté !")
+print("Fichier exporté avec succès !")
 
-# ================================
-# 5. VISUALISATION
-# ================================
+# 8. VISUALISATION
 
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 

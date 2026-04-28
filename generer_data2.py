@@ -2,9 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import random
 
-# ================================
 # 1. GÉNÉRATION DE 1000 PRODUITS UNIQUES
-# ================================
 
 nb_lignes = 1000
 
@@ -21,37 +19,24 @@ df = pd.DataFrame(data)
 df.to_csv("ventes.csv", index=False)
 print("Fichier ventes.csv (1000 produits uniques) généré !")
 
-# ================================
 # 2. CALCULS
-# ================================
-
 df["CA_Brut"] = df["Prix"] * df["Quantite"]
 df["CA_Net"] = df["CA_Brut"] * (1 - df["Remise"] / 100)
 df["TVA"] = df["CA_Net"] * 0.20
 
-# ================================
 # 3. ANALYSE
-# ================================
-
 ca_total = df["CA_Net"].sum()
 
 # Ici chaque produit est unique → pas besoin de groupby
 top_produit = df.loc[df["CA_Net"].idxmax()]
-
 print(f"\n CA Total = {ca_total:.2f} €")
 print(f" Meilleur produit : ID {top_produit['ID']} → {top_produit['CA_Net']:.2f} €")
 
-# ================================
 # 4. EXPORT FINAL
-# ================================
-
 df.to_csv("resultats_final.csv", index=False)
 print(" resultats_final.csv exporté !")
 
-# ================================
 # 5. VISUALISATION
-# ================================
-
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
 #  Titre général
